@@ -1,21 +1,18 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Application
 metadata:
   name: sample-app
-  labels:
-    app: sample-app
+  namespace: argocd
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: sample-app
-  template:
-    metadata:
-      labels:
-        app: sample-app
-    spec:
-      containers:
-        - name: nginx
-          image: nginx:1.25
-          ports:
-            - containerPort: 80
+  project: default
+  source:
+    repoURL: 'https://github.com/Weilei424/idp-sandbox-gitops.git'
+    targetRevision: HEAD
+    path: sample-app
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
