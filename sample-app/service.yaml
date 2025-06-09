@@ -7,6 +7,6 @@ spec:
     app: sample-app
   ports:
     - protocol: TCP
-      port: 81
-      targetPort: 81
+      port: 82
+      targetPort: 82
   type: ClusterIP
