@@ -20,6 +20,9 @@ spec:
         repoURL: https://github.com/Weilei424/idp-sandbox-gitops.git
         targetRevision: HEAD
         path: '{{path}}'
+        helm:
+          valueFiles:
+            - values.yaml
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{path.basename}}'
