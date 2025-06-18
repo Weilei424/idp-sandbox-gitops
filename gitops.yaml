@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: all-apps
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/Weilei424/idp-sandbox-gitops.git
+        revision: HEAD
+        directories:
+          - path: 'root-app/'
+          - path: 'bootstrap-app/'
+  template:
+    metadata:
+      name: '{{path.basename}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/Weilei424/idp-sandbox-gitops.git
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: default
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
